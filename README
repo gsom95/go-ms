@@ -1,0 +1,9 @@
+# Purpose
+This repo is supposed to contain various examples of microservices written in Go.
+
+# What is expected
+I expect that there would be 
+
+- at least one working microservice
+- unit tests
+- ci/cd kind of
