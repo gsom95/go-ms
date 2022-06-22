@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -55,9 +56,21 @@ func (ts *TaskServer) TaskHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch r.Method {
+	case http.MethodGet:
+		ts.getTaskHandler(w, r, id)
 	case http.MethodDelete:
 		ts.deleteTaskHandler(w, r, id)
 	default:
 		http.Error(w, fmt.Sprintf("expect DELETE method, but recieved: %s", r.Method), http.StatusMethodNotAllowed)
 	}
+}
+
+func renderJSON(w http.ResponseWriter, data any) {
+	js, err := json.Marshal(data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write(js)
 }
