@@ -10,9 +10,9 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	server := server.NewTaskServer()
+	s := server.NewTaskServer()
 
-	mux.HandleFunc("/task/", server.TaskHandler)
+	mux.HandleFunc("/task/", server.BasicAuth(s.TaskHandler))
 
 	port := os.Getenv("SERVERPORT")
 	if port == "" {
